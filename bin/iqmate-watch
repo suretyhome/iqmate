@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mosquitto_sub -t 'iqmate/#' -F '%t\n%p\n'

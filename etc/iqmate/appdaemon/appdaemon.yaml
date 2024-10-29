@@ -1,0 +1,33 @@
+appdaemon:
+  latitude: 0
+  longitude: 0
+  elevation: 30
+  time_zone: America/New_York
+  plugins:
+    HASS:
+      type: hass
+      ha_url:
+      token:
+      cert_verify: True
+    MQTT:
+      type: mqtt
+      verbose: True
+      namespace: mqtt
+      client_host: localhost
+http:
+  url: http://0.0.0.0:5050
+admin:
+api:
+hadashboard:
+logs:
+  main_log:
+    filename: /iqmate/appdaemon/logs/main.log
+  access_log:
+    filename: /iqmate/appdaemon/logs/access.log
+  error_log:
+    filename: /iqmate/appdaemon/logs/error.log
+  diag_log:
+    filename: /iqmate/appdaemon/logs/diag.log
+    log_generations: 5
+    log_size: 1024
+    format: "{asctime} {levelname:<8} {appname:<10}: {message}"
