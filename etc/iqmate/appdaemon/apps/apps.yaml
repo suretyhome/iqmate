@@ -1,7 +1,7 @@
 qolsys_panel:
   module: gateway
   class: QolsysGateway
-  discovery_topic: iqmate
+  discovery_topic: qolsys
   log_level: DEBUG
   panel_host: <<< IQ Panel IP Address >>>
   panel_token: <<< IQ Panel Secure Token >>>
