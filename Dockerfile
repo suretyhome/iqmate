@@ -23,5 +23,6 @@ RUN npm install -g --unsafe-perm node-red
 COPY etc/iqmate /etc/iqmate
 COPY bin/* /bin/
 
-EXPOSE 1880
-EXPOSE 1883
+EXPOSE 1880 1883
+
+RUN echo iqmate-start >> ~/.bashrc
