@@ -13,15 +13,18 @@ def on_message(client, flows, msg):
     topic = msg.topic.split("/")
     if len(topic) >= 4 and topic[1] == "binary_sensor" and topic[3] == "config":
         payload = json.loads(msg.payload)
-        add_node(flows, payload["device_class"], payload["name"], payload["state_topic"])
+        add_node(flows, "mqtt in", payload["name"], payload["state_topic"], json.dumps(payload, indent=4))
+    if len(topic) >= 5 and topic[1] == "alarm_control_panel" and topic[4] == "config":
+        payload = json.loads(msg.payload)
+        add_node(flows, "mqtt in", "Qolsys Panel", payload["state_topic"], json.dumps(payload, indent=4))
 
-def add_node(flows, type, name, state_topic):
+def add_node(flows, type, name, topic, info):
     flows.append({
         "id": os.urandom(8).hex(),
-        "type": "mqtt in",
+        "type": type,
         "z": "db0d03662baee2f8",
         "name": name,
-        "topic": state_topic,
+        "topic": topic,
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "fbbfa7873cd57aa5",
@@ -33,7 +36,8 @@ def add_node(flows, type, name, state_topic):
         "y": 40 + 60 * (len(flows) - 2),
         "wires": [
             []
-        ]
+        ],
+        "info": info
     })
 
 flows = [
