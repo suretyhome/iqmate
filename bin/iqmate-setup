@@ -8,3 +8,8 @@ cd /iqmate
 echo `date "+%D %T"`: Cloning Qolsys Gateway
 git clone https://github.com/XaF/qolsysgw.git
 cp -a qolsysgw/apps/qolsysgw appdaemon/apps/
+
+echo `date "+%D %T"`: Preparing discovery venv
+cd discovery
+python3 -m venv python
+./python/bin/pip3 install paho-mqtt

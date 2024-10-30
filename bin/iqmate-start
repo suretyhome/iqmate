@@ -14,6 +14,13 @@ sed -i "s/^\s*panel_host:.*$/  panel_host: ${IQPANEL_HOST}/" apps/apps.yaml
 sed -i "s/^\s*panel_token:.*$/  panel_token: ${IQPANEL_TOKEN}/" apps/apps.yaml
 nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 &
 
+if [ ! -f /iqmate/nodered/flows.json ]; then
+    echo `date "+%D %T"`: Discovering Qolsys devices >> /iqmate/iqmate.log
+    cd /iqmate/discovery
+    ./python/bin/python3 discover-qolsys.py
+    mv flows.json /iqmate/nodered/
+fi
+
 echo `date "+%D %T"`: Starting Node-RED >> /iqmate/iqmate.log
 cd /iqmate/nodered
 nohup node-red -u /iqmate/nodered > /dev/null 2>&1 &
