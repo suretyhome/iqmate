@@ -6,5 +6,3 @@ cd /iqmate
 
 git clone https://github.com/XaF/qolsysgw.git
 cp -a qolsysgw/apps/qolsysgw appdaemon/apps/
-
-nano appdaemon/apps/apps.yaml
