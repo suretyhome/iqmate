@@ -4,3 +4,6 @@ mosquitto -c /iqmate/mosquitto/mosquitto.conf -d
 
 cd /iqmate/appdaemon
 nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 &
+
+cd /iqmate/nodered
+nohup node-red -u /iqmate/nodered > /dev/null 2>&1 &

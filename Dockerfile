@@ -4,15 +4,24 @@ RUN apt-get update && apt-get install -y \
     iproute2 \
     net-tools \
     nmap \
-    nano \ 
+    curl \
+    nano \
+    git \
     python3 \
     python3-pip \
-    nodejs \
-    npm \
     mosquitto \
     mosquitto-clients
 
+RUN cd ~ && curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
+    apt-get install -y nodejs
+
 RUN pip install appdaemon
+
+RUN npm install -g --unsafe-perm node-red
 
 COPY etc/iqmate /etc/iqmate
 COPY bin/* /bin/
+
+EXPOSE 1880
+EXPOSE 1883
