@@ -1,11 +1,19 @@
 #!/bin/bash
 
+if [ ! -f /iqmate/iqmate.log ]; then
+    echo `date "+%D %T"`: Running Setup > /iqmate/iqmate.log
+    iqmate-setup &>> /iqmate/iqmate.log
+fi
+
+echo `date "+%D %T"`: Starting Mosquitto >> /iqmate/iqmate.log
 mosquitto -c /iqmate/mosquitto/mosquitto.conf -d
 
+echo `date "+%D %T"`: Starting AppDaemon >> /iqmate/iqmate.log
 cd /iqmate/appdaemon
 sed -i "s/^\s*panel_host:.*$/  panel_host: ${IQPANEL_HOST}/" apps/apps.yaml
 sed -i "s/^\s*panel_token:.*$/  panel_token: ${IQPANEL_TOKEN}/" apps/apps.yaml
 nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 &
 
+echo `date "+%D %T"`: Starting Node-RED >> /iqmate/iqmate.log
 cd /iqmate/nodered
 nohup node-red -u /iqmate/nodered > /dev/null 2>&1 &

@@ -1,8 +1,10 @@
 #!/bin/bash
 
+echo `date "+%D %T"`: Copying default files
 cp -a /etc/iqmate/. /iqmate/
 
 cd /iqmate
 
+echo `date "+%D %T"`: Cloning Qolsys Gateway
 git clone https://github.com/XaF/qolsysgw.git
 cp -a qolsysgw/apps/qolsysgw appdaemon/apps/
