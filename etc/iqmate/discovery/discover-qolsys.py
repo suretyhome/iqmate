@@ -18,8 +18,8 @@ def on_message(client, flows, msg):
         payload = json.loads(msg.payload)
         command_template = json.loads(payload["command_template"])
         session = command_template["session_token"]
-        flows.append(mttq_in_node("IQ Panel Armed", payload["state_topic"], payload))
-        flows.append(mttq_out_node("IQ Panel", "See IQ Panel Arm State info"))
+        flows.append(mttq_in_node("IQ Panel Status", payload["state_topic"], payload))
+        flows.append(mttq_out_node("IQ Panel Command", payload))
         flows.append(panel_command_node("Arm Stay", payload["command_topic"], panel_command("ARM_HOME", session, {
             "bypass": True,
             "delay": 0,
@@ -119,7 +119,7 @@ flows = [
     {
         "id": "db0d03662baee2f8",
         "type": "tab",
-        "label": "Qolsys",
+        "label": "Qolsys Nodes",
         "disabled": False,
         "info": "",
         "env": []

@@ -9,4 +9,4 @@ docker run --rm -it \
     -p 1880:1880 -p 1883:1883 \
     -v $PWD/shared:/iqmate -w /iqmate \
     -e IQPANEL_HOST=$1 -e IQPANEL_TOKEN=$2 \
-    iqmate /bin/bash
+    suretyhome/iqmate /bin/bash
