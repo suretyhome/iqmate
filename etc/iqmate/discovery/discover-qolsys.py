@@ -155,6 +155,18 @@ flows = [
         "userProps": "",
         "sessionExpiry": ""
     },
+    {
+        "id": "e8226d85231ab15f",
+        "type": "global-config",
+        "name": "global-config",
+        "env": [
+            {
+                "name": "IQ Panel User Code",
+                "value": "",
+                "type": "str"
+            }
+        ]
+    }
 ]
 
 def layout_nodes(flows):
