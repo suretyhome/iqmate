@@ -24,3 +24,6 @@ fi
 echo `date "+%D %T"`: Starting Node-RED >> /iqmate/iqmate.log
 cd /iqmate/nodered
 nohup node-red -u /iqmate/nodered > /dev/null 2>&1 &
+
+ps ax | grep -v "/bin/bash" | grep -v "ps ax"
+echo "IQ Mate is running..."
