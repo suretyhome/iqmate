@@ -26,4 +26,4 @@ cd /iqmate/nodered
 nohup node-red -u /iqmate/nodered > /dev/null 2>&1 &
 
 ps ax | grep -v "/bin/bash" | grep -v "ps ax"
-echo "IQ Mate is running..."
+echo "IQ Mate is running. Go to http://localhost:1880 for Node-RED."
