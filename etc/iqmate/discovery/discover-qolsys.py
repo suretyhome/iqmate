@@ -156,7 +156,7 @@ flows = [
         "sessionExpiry": ""
     },
     {
-        "id": "e8226d85231ab15f",
+        "id": os.urandom(8).hex(),
         "type": "global-config",
         "name": "global-config",
         "env": [
@@ -176,19 +176,21 @@ def layout_nodes(flows):
     outputs = 0
     for i, _ in enumerate(flows):
         node = flows[i]
-        node["z"] = "db0d03662baee2f8"
         if node["type"] in ["mqtt in"]:
             inputs += 1
             node["x"] = 120
             node["y"] = inputs * offset
+            node["z"] = "db0d03662baee2f8"
         if node["type"] in ["change"]:
             commands += 1
             node["x"] = 320
             node["y"] = commands * offset
+            node["z"] = "db0d03662baee2f8"
         if node["type"] in ["mqtt out"]:
             outputs += 1
             node["x"] = 520
             node["y"] = outputs * offset
+            node["z"] = "db0d03662baee2f8"
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
