@@ -195,6 +195,8 @@ def layout_nodes(flows):
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
+password = ""
+mqttc.username_pw_set("iqmate", password)
 mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
 time.sleep(4)
