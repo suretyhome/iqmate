@@ -14,6 +14,8 @@ appdaemon:
       verbose: True
       namespace: mqtt
       client_host: localhost
+      client_user: iqmate
+      client_password: <<< IQ Panel Secure Token >>>
 http:
   url: http://0.0.0.0:5050
 admin:
