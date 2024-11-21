@@ -202,67 +202,33 @@ waveshare_modbus_client = {
     "showLogs": True
 }
 
-waveshare_set_up_group = {
-    "id": os.urandom(8).hex(),
-    "type": "group",
-    "z": qolsys_nodes_tab['id'],
-    "name": "Waveshare Set Up (do this once)",
-    "style": {
-        "label": True
-    },
-    "nodes": [],
-    "x": 54,
-    "y": 439,
-    "w": 652,
-    "h": 82
-}
-
-iq_hardwire_pg_outputs_group = {
-    "id": os.urandom(8).hex(),
-    "type": "group",
-    "z": qolsys_nodes_tab['id'],
-    "name": "IQ Hardwire PowerG Outputs",
-    "style": {
-        "label": True
-    },
-    "nodes": [],
-    "x": 54,
-    "y": 539,
-    "w": 572,
-    "h": 362
-}
-
-iq_hardwire_pg_inputs_group = {
-    "id": os.urandom(8).hex(),
-    "type": "group",
-    "z": qolsys_nodes_tab['id'],
-    "name": "IQ Hardwire PowerG Inputs",
-    "style": {
-        "label": True
-    },
-    "nodes": [],
-    "x": 654,
-    "y": 539,
-    "w": 179,
-    "h": 362
-}
-
 flows = [
     qolsys_nodes_tab,
     global_config,
     mqtt_broker,
-    waveshare_modbus_client,
-    waveshare_set_up_group,
-    iq_hardwire_pg_outputs_group,
-    iq_hardwire_pg_inputs_group
+    waveshare_modbus_client
 ]
 
-def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_modbus_client):
+def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
+    group = {
+        "id": os.urandom(8).hex(),
+        "type": "group",
+        "z": qolsys_nodes_tab['id'],
+        "name": "Waveshare Set Up (do this once)",
+        "style": {
+            "label": True
+        },
+        "nodes": [],
+        "x": 54,
+        "y": 439,
+        "w": 652,
+        "h": 82
+    }
     modbus_node = {
         "id": os.urandom(8).hex(),
         "type": "modbus-flex-write",
         "z": qolsys_nodes_tab['id'],
-        "g": waveshare_set_up_group['id'],
+        "g": group['id'],
         "name": "Waveshare Config",
         "showStatusActivities": True,
         "showErrors": True,
@@ -283,7 +249,7 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_m
         "id": os.urandom(8).hex(),
         "type": "change",
         "z": qolsys_nodes_tab['id'],
-        "g": waveshare_set_up_group['id'],
+        "g": group['id'],
         "name": "Control Mode Normal",
         "rules": [
             {
@@ -311,7 +277,7 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_m
         "id": os.urandom(8).hex(),
         "type": "inject",
         "z": qolsys_nodes_tab['id'],
-        "g": waveshare_set_up_group['id'],
+        "g": group['id'],
         "name": "Set Contol Mode",
         "props": [
             {
@@ -338,15 +304,29 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_m
         ]
     }
     nodes = [inject_node, change_node, modbus_node]
-    waveshare_set_up_group['nodes'] = list(map(lambda x: x['id'], nodes))
-    return nodes
+    group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return [group] + nodes
 
-def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group, waveshare_modbus_client):
+def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
+    group = {
+        "id": os.urandom(8).hex(),
+        "type": "group",
+        "z": qolsys_nodes_tab['id'],
+        "name": "IQ Hardwire PowerG Outputs",
+        "style": {
+            "label": True
+        },
+        "nodes": [],
+        "x": 54,
+        "y": 539,
+        "w": 572,
+        "h": 362
+    }
     sampler = {
         "id": os.urandom(8).hex(),
         "type": "modbus-read",
         "z": qolsys_nodes_tab['id'],
-        "g": iq_hardwire_pg_outputs_group['id'],
+        "g": group['id'],
         "name": "Output Sampler",
         "topic": "",
         "showStatusActivities": False,
@@ -379,7 +359,7 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group,
             "id": os.urandom(8).hex(),
             "type": "rbe",
             "z": qolsys_nodes_tab['id'],
-            "g": iq_hardwire_pg_outputs_group['id'],
+            "g": group['id'],
             "name": "Events " + str(i + 1),
             "func": "rbe",
             "gap": "",
@@ -398,7 +378,7 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group,
             "id": os.urandom(8).hex(),
             "type": "change",
             "z": qolsys_nodes_tab['id'],
-            "g": iq_hardwire_pg_outputs_group['id'],
+            "g": group['id'],
             "name": "Samples " + str(i + 1),
             "rules": [
                 {
@@ -424,17 +404,31 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group,
         }
         sampler['wires'][0].append(samples['id'])
         nodes.extend([samples, events])
-    iq_hardwire_pg_outputs_group['nodes'] = list(map(lambda x: x['id'], nodes))
-    return nodes
+    group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return [group] + nodes
 
-def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_inputs_group, waveshare_modbus_client):
+def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
+    group = {
+        "id": os.urandom(8).hex(),
+        "type": "group",
+        "z": qolsys_nodes_tab['id'],
+        "name": "IQ Hardwire PowerG Inputs",
+        "style": {
+            "label": True
+        },
+        "nodes": [],
+        "x": 654,
+        "y": 539,
+        "w": 179,
+        "h": 362
+    }
     nodes = []
     for i in range(8):
         nodes.append({
             "id": os.urandom(8).hex(),
             "type": "modbus-write",
             "z": qolsys_nodes_tab['id'],
-            "g": iq_hardwire_pg_inputs_group['id'],
+            "g": group['id'],
             "name": "Input " + str(i + 1),
             "showStatusActivities": False,
             "showErrors": True,
@@ -455,8 +449,8 @@ def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_inputs_group, w
                 []
             ]
         })
-    iq_hardwire_pg_inputs_group['nodes'] = list(map(lambda x: x['id'], nodes))
-    return nodes
+    group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return [group] + nodes
 
 def layout_nodes(flows):
     global qolsys_nodes_tab
@@ -494,9 +488,9 @@ mqttc.loop_stop()
 
 layout_nodes(flows)
 
-flows.extend(waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_modbus_client))
-flows.extend(iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group, waveshare_modbus_client))
-flows.extend(iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_inputs_group, waveshare_modbus_client))
+flows.extend(waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client))
+flows.extend(iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client))
+flows.extend(iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client))
 
 with open('flows.json', 'w') as f:
     json.dump(flows, f, ensure_ascii=False, indent=4)
