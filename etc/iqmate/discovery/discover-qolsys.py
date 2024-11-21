@@ -19,19 +19,20 @@ def on_message(client, flows, msg):
         command_template = json.loads(payload["command_template"])
         session = command_template["session_token"]
         flows.append(mttq_in_node("IQ Panel Status", payload["state_topic"], payload))
-        flows.append(mttq_out_node("IQ Panel Command", payload))
+        iq_panel_command_node = mttq_out_node("IQ Panel Command", payload)
+        flows.append(iq_panel_command_node)
         flows.append(panel_command_node("Arm Stay", payload["command_topic"], panel_command("ARM_HOME", session, {
             "bypass": True,
             "delay": 0,
-        })))
+        }), iq_panel_command_node))
         flows.append(panel_command_node("Arm Away", payload["command_topic"], panel_command("ARM_AWAY", session, {
             "bypass": True,
             "delay": 0,
-        })))
-        flows.append(panel_command_node("Disarm", payload["command_topic"], panel_command("DISARM", session, {})))
-        flows.append(panel_command_node("Police Panic", payload["command_topic"], panel_command("TRIGGER_POLICE", session, {})))
-        flows.append(panel_command_node("Fire Panic", payload["command_topic"], panel_command("TRIGGER_FIRE", session, {})))
-        flows.append(panel_command_node("Medical Panic", payload["command_topic"], panel_command("TRIGGER_AUXILIARY", session, {})))
+        }), iq_panel_command_node))
+        flows.append(panel_command_node("Disarm", payload["command_topic"], panel_command("DISARM", session, {}), iq_panel_command_node))
+        flows.append(panel_command_node("Police Panic", payload["command_topic"], panel_command("TRIGGER_POLICE", session, {}), iq_panel_command_node))
+        flows.append(panel_command_node("Fire Panic", payload["command_topic"], panel_command("TRIGGER_FIRE", session, {}), iq_panel_command_node))
+        flows.append(panel_command_node("Medical Panic", payload["command_topic"], panel_command("TRIGGER_AUXILIARY", session, {}), iq_panel_command_node))
 
 def panel_command(action, session, extra):
     extra["partition_id"] = "0"
@@ -39,8 +40,9 @@ def panel_command(action, session, extra):
     extra["session_token"] = session
     return extra
 
-def panel_command_node(name, topic, command):
-    return {
+def panel_command_node(name, topic, command, command_node):
+    global iq_panel_commands_group
+    node = {
         "id": os.urandom(8).hex(),
         "type": "change",
         "name": name,
@@ -73,14 +75,15 @@ def panel_command_node(name, topic, command):
         "to": "",
         "reg": False,
         "wires": [
-            []
+            [command_node['id']]
         ]
-
     }
+    iq_panel_commands_group['nodes'].append(node['id'])
+    return node
 
 def mttq_out_node(name, config):
-    global mqtt_broker
-    return {
+    global iq_panel_commands_group, mqtt_broker
+    node = {
         "id": os.urandom(8).hex(),
         "type": "mqtt out",
         "name": name,
@@ -96,10 +99,12 @@ def mttq_out_node(name, config):
         "wires": [],
         "info": json.dumps(config, indent=4)
     }
+    iq_panel_commands_group['nodes'].append(node['id'])
+    return node
 
 def mttq_in_node(name, topic, config):
-    global mqtt_broker
-    return {
+    global iq_panel_sensors_group, mqtt_broker
+    node = {
         "id": os.urandom(8).hex(),
         "type": "mqtt in",
         "name": name,
@@ -116,6 +121,8 @@ def mttq_in_node(name, topic, config):
         ],
         "info": json.dumps(config, indent=4)
     }
+    iq_panel_sensors_group['nodes'].append(node['id'])
+    return node
 
 qolsys_nodes_tab = {
     "id": os.urandom(8).hex(),
@@ -174,7 +181,7 @@ mqtt_broker = {
 waveshare_modbus_client = {
     "id": os.urandom(8).hex(),
     "type": "modbus-client",
-    "name": "Waveshare Device",
+    "name": "Waveshare IO Module",
     "clienttype": "tcp",
     "bufferCommands": True,
     "stateLogEnabled": True,
@@ -202,11 +209,39 @@ waveshare_modbus_client = {
     "showLogs": True
 }
 
+iq_panel_sensors_group = {
+    "id": os.urandom(8).hex(),
+    "type": "group",
+    "z": qolsys_nodes_tab['id'],
+    "name": "IQ Panel Sensors",
+    "style": {
+        "label": True
+    },
+    "nodes": [],
+    # "x": 34,
+    # "y": 39
+}
+
+iq_panel_commands_group = {
+    "id": os.urandom(8).hex(),
+    "type": "group",
+    "z": qolsys_nodes_tab['id'],
+    "name": "IQ Panel Commands",
+    "style": {
+        "label": True
+    },
+    "nodes": [],
+    # "x": 34,
+    # "y": 39
+}
+
 flows = [
     qolsys_nodes_tab,
     global_config,
     mqtt_broker,
-    waveshare_modbus_client
+    waveshare_modbus_client,
+    iq_panel_sensors_group,
+    iq_panel_commands_group
 ]
 
 def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
@@ -220,7 +255,7 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         },
         "nodes": [],
         "x": 54,
-        "y": 439
+        "y": 839
     }
     modbus_node = {
         "id": os.urandom(8).hex(),
@@ -316,7 +351,7 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         },
         "nodes": [],
         "x": 54,
-        "y": 539
+        "y": 459
     }
     sampler = {
         "id": os.urandom(8).hex(),
@@ -413,8 +448,8 @@ def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
             "label": True
         },
         "nodes": [],
-        "x": 654,
-        "y": 539
+        "x": 674,
+        "y": 459
     }
     nodes = []
     for i in range(8):
@@ -448,27 +483,30 @@ def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
 
 def layout_nodes(flows):
     global qolsys_nodes_tab
-    offset = 60
-    inputs = 0
-    commands = 0
-    outputs = 0
+    y_offset = 40
+    input_rows = 9
+    input_i = 0
+    command_i = 0
+    output_i = 0
     for i, _ in enumerate(flows):
         node = flows[i]
         if node["type"] in ["mqtt in"]:
-            inputs += 1
-            node["x"] = 120
-            node["y"] = inputs * offset
+            column = input_i // input_rows
+            row = input_i % input_rows
+            node["x"] = 160 + column * 200
+            node["y"] = 80 + row * y_offset
             node["z"] = qolsys_nodes_tab['id']
+            input_i += 1
         if node["type"] in ["change"]:
-            commands += 1
-            node["x"] = 320
-            node["y"] = commands * offset
+            node["x"] = 780
+            node["y"] = 80 + command_i * y_offset
             node["z"] = qolsys_nodes_tab['id']
+            command_i += 1
         if node["type"] in ["mqtt out"]:
-            outputs += 1
-            node["x"] = 520
-            node["y"] = outputs * offset
+            node["x"] = 1000
+            node["y"] = 160
             node["z"] = qolsys_nodes_tab['id']
+            output_i += 1
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
