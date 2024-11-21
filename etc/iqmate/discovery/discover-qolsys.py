@@ -79,6 +79,7 @@ def panel_command_node(name, topic, command):
     }
 
 def mttq_out_node(name, config):
+    global mqtt_broker
     return {
         "id": os.urandom(8).hex(),
         "type": "mqtt out",
@@ -91,12 +92,13 @@ def mttq_out_node(name, config):
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "fbbfa7873cd57aa5",
+        "broker": mqtt_broker['id'],
         "wires": [],
         "info": json.dumps(config, indent=4)
     }
 
 def mttq_in_node(name, topic, config):
+    global mqtt_broker
     return {
         "id": os.urandom(8).hex(),
         "type": "mqtt in",
@@ -104,7 +106,7 @@ def mttq_in_node(name, topic, config):
         "topic": topic,
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "fbbfa7873cd57aa5",
+        "broker": mqtt_broker['id'],
         "nl": False,
         "rap": True,
         "rh": 0,
@@ -115,61 +117,349 @@ def mttq_in_node(name, topic, config):
         "info": json.dumps(config, indent=4)
     }
 
-flows = [
-    {
-        "id": "db0d03662baee2f8",
-        "type": "tab",
-        "label": "Qolsys Nodes",
-        "disabled": False,
-        "info": "",
-        "env": []
-    },
+qolsys_nodes_tab = {
+    "id": os.urandom(8).hex(),
+    "type": "tab",
+    "label": "Qolsys Nodes",
+    "disabled": False,
+    "info": "",
+    "env": []
+}
+
+global_config = {
+    "id": os.urandom(8).hex(),
+    "type": "global-config",
+    "name": "global-config",
+    "env": [
         {
-        "id": "fbbfa7873cd57aa5",
-        "type": "mqtt-broker",
-        "name": "IQ Mate",
-        "broker": "localhost",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": True,
-        "usetls": False,
-        "protocolVersion": "5",
-        "keepalive": "60",
-        "cleansession": True,
-        "autoUnsubscribe": True,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
+            "name": "IQ Panel User Code",
+            "value": "",
+            "type": "str"
+        }
+    ]
+}
+
+mqtt_broker = {
+    "id": os.urandom(8).hex(),
+    "type": "mqtt-broker",
+    "name": "IQ Mate",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "",
+    "autoConnect": True,
+    "usetls": False,
+    "protocolVersion": "5",
+    "keepalive": "60",
+    "cleansession": True,
+    "autoUnsubscribe": True,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closeRetain": "false",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+}
+
+waveshare_modbus_client = {
+    "id": os.urandom(8).hex(),
+    "type": "modbus-client",
+    "name": "Waveshare Device",
+    "clienttype": "tcp",
+    "bufferCommands": True,
+    "stateLogEnabled": True,
+    "queueLogEnabled": False,
+    "failureLogEnabled": True,
+    "tcpHost": "192.168.12.148",
+    "tcpPort": "4196",
+    "tcpType": "DEFAULT",
+    "serialPort": "/dev/ttyUSB",
+    "serialType": "RTU-BUFFERD",
+    "serialBaudrate": "9600",
+    "serialDatabits": "8",
+    "serialStopbits": "1",
+    "serialParity": "none",
+    "serialConnectionDelay": "100",
+    "serialAsciiResponseStartDelimiter": "0x3A",
+    "unit_id": "1",
+    "commandDelay": "1",
+    "clientTimeout": "1000",
+    "reconnectOnTimeout": True,
+    "reconnectTimeout": "2000",
+    "parallelUnitIdsAllowed": True,
+    "showErrors": True,
+    "showWarnings": True,
+    "showLogs": True
+}
+
+waveshare_set_up_group = {
+    "id": os.urandom(8).hex(),
+    "type": "group",
+    "z": qolsys_nodes_tab['id'],
+    "name": "Waveshare Set Up (do this once)",
+    "style": {
+        "label": True
     },
-    {
-        "id": os.urandom(8).hex(),
-        "type": "global-config",
-        "name": "global-config",
-        "env": [
-            {
-                "name": "IQ Panel User Code",
-                "value": "",
-                "type": "str"
-            }
-        ]
-    }
+    "nodes": [],
+    "x": 54,
+    "y": 439,
+    "w": 652,
+    "h": 82
+}
+
+iq_hardwire_pg_outputs_group = {
+    "id": os.urandom(8).hex(),
+    "type": "group",
+    "z": qolsys_nodes_tab['id'],
+    "name": "IQ Hardwire PowerG Outputs",
+    "style": {
+        "label": True
+    },
+    "nodes": [],
+    "x": 54,
+    "y": 539,
+    "w": 572,
+    "h": 362
+}
+
+iq_hardwire_pg_inputs_group = {
+    "id": os.urandom(8).hex(),
+    "type": "group",
+    "z": qolsys_nodes_tab['id'],
+    "name": "IQ Hardwire PowerG Inputs",
+    "style": {
+        "label": True
+    },
+    "nodes": [],
+    "x": 654,
+    "y": 539,
+    "w": 179,
+    "h": 362
+}
+
+flows = [
+    qolsys_nodes_tab,
+    global_config,
+    mqtt_broker,
+    waveshare_modbus_client,
+    waveshare_set_up_group,
+    iq_hardwire_pg_outputs_group,
+    iq_hardwire_pg_inputs_group
 ]
 
+def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_modbus_client):
+    modbus_node = {
+        "id": os.urandom(8).hex(),
+        "type": "modbus-flex-write",
+        "z": qolsys_nodes_tab['id'],
+        "g": waveshare_set_up_group['id'],
+        "name": "Waveshare Config",
+        "showStatusActivities": True,
+        "showErrors": True,
+        "showWarnings": True,
+        "server": waveshare_modbus_client['id'],
+        "emptyMsgOnFail": False,
+        "keepMsgProperties": False,
+        "delayOnStart": False,
+        "startDelayTime": "",
+        "x": 590,
+        "y": 480,
+        "wires": [
+            [],
+            []
+        ]
+    }
+    change_node = {
+        "id": os.urandom(8).hex(),
+        "type": "change",
+        "z": qolsys_nodes_tab['id'],
+        "g": waveshare_set_up_group['id'],
+        "name": "Control Mode Normal",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"value\":[0,0,0,0,0,0,0,0],\"fc\":16,\"unitid\":1,\"address\":4096,\"quantity\":8}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": False,
+        "x": 380,
+        "y": 480,
+        "wires": [
+            [
+                modbus_node['id']
+            ]
+        ]
+    }
+    inject_node = {
+        "id": os.urandom(8).hex(),
+        "type": "inject",
+        "z": qolsys_nodes_tab['id'],
+        "g": waveshare_set_up_group['id'],
+        "name": "Set Contol Mode",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": False,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 480,
+        "wires": [
+            [
+                change_node['id']
+            ]
+        ]
+    }
+    nodes = [inject_node, change_node, modbus_node]
+    waveshare_set_up_group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return nodes
+
+def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group, waveshare_modbus_client):
+    sampler = {
+        "id": os.urandom(8).hex(),
+        "type": "modbus-read",
+        "z": qolsys_nodes_tab['id'],
+        "g": iq_hardwire_pg_outputs_group['id'],
+        "name": "Output Sampler",
+        "topic": "",
+        "showStatusActivities": False,
+        "logIOActivities": False,
+        "showErrors": True,
+        "showWarnings": True,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "0",
+        "quantity": "8",
+        "rate": "4",
+        "rateUnit": "s",
+        "delayOnStart": False,
+        "startDelayTime": "",
+        "server": waveshare_modbus_client['id'],
+        "useIOFile": False,
+        "ioFile": "",
+        "useIOForPayload": False,
+        "emptyMsgOnFail": False,
+        "x": 180,
+        "y": 720,
+        "wires": [
+            [],
+            []
+        ]
+    }
+    nodes = [sampler]
+    for i in range(8):
+        events = {
+            "id": os.urandom(8).hex(),
+            "type": "rbe",
+            "z": qolsys_nodes_tab['id'],
+            "g": iq_hardwire_pg_outputs_group['id'],
+            "name": "Events " + str(i + 1),
+            "func": "rbe",
+            "gap": "",
+            "start": "",
+            "inout": "out",
+            "septopics": True,
+            "property": "payload",
+            "topi": "topic",
+            "x": 540,
+            "y": 580 + 40 * i,
+            "wires": [
+                []
+            ]
+        }
+        samples = {
+            "id": os.urandom(8).hex(),
+            "type": "change",
+            "z": qolsys_nodes_tab['id'],
+            "g": iq_hardwire_pg_outputs_group['id'],
+            "name": "Samples " + str(i + 1),
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "payload[" + str(i) + "]",
+                    "tot": "msg"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": False,
+            "x": 390,
+            "y": 580 + 40 * i,
+            "wires": [
+                [
+                    events['id']
+                ]
+            ]
+        }
+        sampler['wires'][0].append(samples['id'])
+        nodes.extend([samples, events])
+    iq_hardwire_pg_outputs_group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return nodes
+
+def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_inputs_group, waveshare_modbus_client):
+    nodes = []
+    for i in range(8):
+        nodes.append({
+            "id": os.urandom(8).hex(),
+            "type": "modbus-write",
+            "z": qolsys_nodes_tab['id'],
+            "g": iq_hardwire_pg_inputs_group['id'],
+            "name": "Input " + str(i + 1),
+            "showStatusActivities": False,
+            "showErrors": True,
+            "showWarnings": True,
+            "unitid": "",
+            "dataType": "Coil",
+            "adr": str(i),
+            "quantity": "1",
+            "server": waveshare_modbus_client['id'],
+            "emptyMsgOnFail": False,
+            "keepMsgProperties": False,
+            "delayOnStart": False,
+            "startDelayTime": "",
+            "x": 740,
+            "y": 580 + 40 * i,
+            "wires": [
+                [],
+                []
+            ]
+        })
+    iq_hardwire_pg_inputs_group['nodes'] = list(map(lambda x: x['id'], nodes))
+    return nodes
+
 def layout_nodes(flows):
+    global qolsys_nodes_tab
     offset = 60
     inputs = 0
     commands = 0
@@ -180,17 +470,17 @@ def layout_nodes(flows):
             inputs += 1
             node["x"] = 120
             node["y"] = inputs * offset
-            node["z"] = "db0d03662baee2f8"
+            node["z"] = qolsys_nodes_tab['id']
         if node["type"] in ["change"]:
             commands += 1
             node["x"] = 320
             node["y"] = commands * offset
-            node["z"] = "db0d03662baee2f8"
+            node["z"] = qolsys_nodes_tab['id']
         if node["type"] in ["mqtt out"]:
             outputs += 1
             node["x"] = 520
             node["y"] = outputs * offset
-            node["z"] = "db0d03662baee2f8"
+            node["z"] = qolsys_nodes_tab['id']
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
@@ -203,5 +493,10 @@ time.sleep(4)
 mqttc.loop_stop()
 
 layout_nodes(flows)
+
+flows.extend(waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_set_up_group, waveshare_modbus_client))
+flows.extend(iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_outputs_group, waveshare_modbus_client))
+flows.extend(iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, iq_hardwire_pg_inputs_group, waveshare_modbus_client))
+
 with open('flows.json', 'w') as f:
     json.dump(flows, f, ensure_ascii=False, indent=4)
