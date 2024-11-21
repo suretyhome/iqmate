@@ -187,7 +187,7 @@ waveshare_modbus_client = {
     "stateLogEnabled": True,
     "queueLogEnabled": False,
     "failureLogEnabled": True,
-    "tcpHost": "192.168.12.149",
+    "tcpHost": "192.168.1.200",
     "tcpPort": "4196",
     "tcpType": "DEFAULT",
     "serialPort": "/dev/ttyUSB",
