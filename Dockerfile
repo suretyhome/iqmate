@@ -19,7 +19,7 @@ RUN cd ~ && curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup
 
 RUN pip install appdaemon
 
-RUN npm install -g --unsafe-perm node-red
+RUN npm install -g --unsafe-perm node-red node-red-contrib-modbus
 
 COPY etc/iqmate /etc/iqmate
 COPY bin/* /bin/

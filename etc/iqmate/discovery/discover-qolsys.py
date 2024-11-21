@@ -368,7 +368,7 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         "dataType": "Input",
         "adr": "0",
         "quantity": "8",
-        "rate": "4",
+        "rate": "1",
         "rateUnit": "s",
         "delayOnStart": False,
         "startDelayTime": "",
@@ -526,3 +526,13 @@ flows.extend(iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_clie
 
 with open('flows.json', 'w') as f:
     json.dump(flows, f, ensure_ascii=False, indent=4)
+
+credentials = {
+    mqtt_broker['id']: {
+        "user": "iqmate",
+        "password": ""
+    }
+}
+
+with open('flows_cred.json', 'w') as f:
+    json.dump(credentials, f, ensure_ascii=False, indent=4)
