@@ -122,6 +122,7 @@ def mttq_in_node(name, topic, config):
         "info": json.dumps(config, indent=4)
     }
     iq_panel_sensors_group['nodes'].append(node['id'])
+    print("Discovered " + name)
     return node
 
 qolsys_nodes_tab = {
