@@ -180,7 +180,7 @@ waveshare_modbus_client = {
     "stateLogEnabled": True,
     "queueLogEnabled": False,
     "failureLogEnabled": True,
-    "tcpHost": "192.168.12.148",
+    "tcpHost": "192.168.12.149",
     "tcpPort": "4196",
     "tcpType": "DEFAULT",
     "serialPort": "/dev/ttyUSB",
@@ -220,9 +220,7 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         },
         "nodes": [],
         "x": 54,
-        "y": 439,
-        "w": 652,
-        "h": 82
+        "y": 439
     }
     modbus_node = {
         "id": os.urandom(8).hex(),
@@ -238,8 +236,8 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         "keepMsgProperties": False,
         "delayOnStart": False,
         "startDelayTime": "",
-        "x": 590,
-        "y": 480,
+        "x": group['x'] + 536,
+        "y": group['y'] + 41,
         "wires": [
             [],
             []
@@ -265,8 +263,8 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         "from": "",
         "to": "",
         "reg": False,
-        "x": 380,
-        "y": 480,
+        "x": group['x'] + 326,
+        "y": group['y'] + 41,
         "wires": [
             [
                 modbus_node['id']
@@ -295,8 +293,8 @@ def waveshare_set_up_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 180,
-        "y": 480,
+        "x": group['x'] + 126,
+        "y": group['y'] + 41,
         "wires": [
             [
                 change_node['id']
@@ -318,9 +316,7 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         },
         "nodes": [],
         "x": 54,
-        "y": 539,
-        "w": 572,
-        "h": 362
+        "y": 539
     }
     sampler = {
         "id": os.urandom(8).hex(),
@@ -346,8 +342,8 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         "ioFile": "",
         "useIOForPayload": False,
         "emptyMsgOnFail": False,
-        "x": 180,
-        "y": 720,
+        "x": group['x'] + 126,
+        "y": group['y'] + 181,
         "wires": [
             [],
             []
@@ -368,8 +364,8 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
             "septopics": True,
             "property": "payload",
             "topi": "topic",
-            "x": 540,
-            "y": 580 + 40 * i,
+            "x": group['x'] + 486,
+            "y": group['y'] + 41 + 40 * i,
             "wires": [
                 []
             ]
@@ -394,8 +390,8 @@ def iq_hardwire_pg_outputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
             "from": "",
             "to": "",
             "reg": False,
-            "x": 390,
-            "y": 580 + 40 * i,
+            "x": group['x'] + 336,
+            "y": group['y'] + 41 + 40 * i,
             "wires": [
                 [
                     events['id']
@@ -418,9 +414,7 @@ def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
         },
         "nodes": [],
         "x": 654,
-        "y": 539,
-        "w": 179,
-        "h": 362
+        "y": 539
     }
     nodes = []
     for i in range(8):
@@ -442,8 +436,8 @@ def iq_hardwire_pg_inputs_nodes(qolsys_nodes_tab, waveshare_modbus_client):
             "keepMsgProperties": False,
             "delayOnStart": False,
             "startDelayTime": "",
-            "x": 740,
-            "y": 580 + 40 * i,
+            "x": group['x'] + 86,
+            "y": group['y'] + 41 + 40 * i,
             "wires": [
                 [],
                 []
