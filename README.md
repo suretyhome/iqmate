@@ -19,6 +19,17 @@ If you want to develop or modify IQ Mate, clone those repository build the docke
 
 IQ Mate automatically discovers the sensors on your IQ Panel and provides a tab (aka flow) called `Qolsys Nodes` that serves as a pallet you can copy from. Create a new tab in Node-RED and copy/paste nodes from the `Qolsys Nodes` tab as needed.
 
+![IQ Mate Pallet](media/IQ-Mate-Pallet.png)
+
 This [demo video](https://vimeo.com/1025543285?share=copy#t=0) shows a simple example monitoring the status of the panel and a door sensor in the debug panel, arming and disarming the IQ Panel.
 
 See the [Node-RED Documentation](https://nodered.org/docs/) to learn more about what you can do with Node-RED.
+
+### IQ Panel Set Up
+
+Some of the panel commands, such as Disarm, require a user code. The first thing to do after installation is to set a panel user code. In Node RED, go to Settings > Environment and enter user code for `IQ Panel User Code`.
+
+![IQ Panel User Code](media/IQ-Panel-User-Code.png)
+
+### IQ Hardwire PowerG Set Up
+
