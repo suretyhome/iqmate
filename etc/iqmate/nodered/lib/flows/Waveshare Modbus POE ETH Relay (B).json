@@ -337,7 +337,7 @@
         "stateLogEnabled": true,
         "queueLogEnabled": false,
         "failureLogEnabled": true,
-        "tcpHost": "192.168.12.150",
+        "tcpHost": "192.168.1.200",
         "tcpPort": "4196",
         "tcpType": "DEFAULT",
         "serialPort": "/dev/ttyUSB",

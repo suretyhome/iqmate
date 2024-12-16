@@ -225,7 +225,7 @@ def layout_nodes(flows):
         if node["type"] in ["mqtt in"]:
             column = input_i // input_rows
             row = input_i % input_rows
-            node["x"] = 160 + column * 200
+            node["x"] = 160 + 200 * column
             node["y"] = 80 + row * y_offset
             node["z"] = qolsys_nodes_tab['id']
             input_i += 1
@@ -233,12 +233,12 @@ def layout_nodes(flows):
     for i, _ in enumerate(flows):
         node = flows[i]
         if node["type"] in ["change"]:
-            node["x"] = 400 + 200 * column
+            node["x"] = 440 + 200 * column
             node["y"] = 80 + command_i * y_offset
             node["z"] = qolsys_nodes_tab['id']
             command_i += 1
         if node["type"] in ["mqtt out"]:
-            node["x"] = 620 + 200 * column
+            node["x"] = 660 + 200 * column
             node["y"] = 160
             node["z"] = qolsys_nodes_tab['id']
             output_i += 1
