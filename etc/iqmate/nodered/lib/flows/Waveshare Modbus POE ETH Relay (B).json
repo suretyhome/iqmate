@@ -1,0 +1,1032 @@
+[
+    {
+        "id": "ad4ab7eeb46cc536",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 540,
+        "wires": [
+            [
+                "500e86d4bc6e29b9"
+            ]
+        ]
+    },
+    {
+        "id": "8b70cf7954b8e0a8",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 500,
+        "wires": [
+            [
+                "e508606658fa5c9a"
+            ]
+        ]
+    },
+    {
+        "id": "212d1c81fe3713a0",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 580,
+        "wires": [
+            [
+                "3ba8473d358ffec6"
+            ]
+        ]
+    },
+    {
+        "id": "9060439995a27413",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 620,
+        "wires": [
+            [
+                "3dba9c927a3a5414"
+            ]
+        ]
+    },
+    {
+        "id": "649d5cafa20db5d2",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 660,
+        "wires": [
+            [
+                "2e5903903c55ec12"
+            ]
+        ]
+    },
+    {
+        "id": "bb5d10b59f7e44c2",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 740,
+        "wires": [
+            [
+                "60f123f5a76c5798"
+            ]
+        ]
+    },
+    {
+        "id": "debcaf057b5995ed",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 700,
+        "wires": [
+            [
+                "a8396ccfd2617593"
+            ]
+        ]
+    },
+    {
+        "id": "78da2a15d7ecfd7d",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 730,
+        "y": 780,
+        "wires": [
+            [
+                "156a0e2894372e46"
+            ]
+        ]
+    },
+    {
+        "id": "d08f9b64d5113ac7",
+        "type": "group",
+        "z": "ed24737d601fa169",
+        "name": "Waveshare Modbus Set Up (do this once)",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "29293ff000d575dc",
+            "5f19db31cef920ca",
+            "843e9e0edc810b58"
+        ],
+        "x": 54,
+        "y": 839,
+        "w": 652,
+        "h": 82
+    },
+    {
+        "id": "29293ff000d575dc",
+        "type": "inject",
+        "z": "ed24737d601fa169",
+        "g": "d08f9b64d5113ac7",
+        "name": "Set Contol Mode",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 880,
+        "wires": [
+            [
+                "5f19db31cef920ca"
+            ]
+        ]
+    },
+    {
+        "id": "5f19db31cef920ca",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "d08f9b64d5113ac7",
+        "name": "Control Mode Normal",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"value\":[0,0,0,0,0,0,0,0],\"fc\":16,\"unitid\":1,\"address\":4096,\"quantity\":8}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 880,
+        "wires": [
+            [
+                "843e9e0edc810b58"
+            ]
+        ]
+    },
+    {
+        "id": "843e9e0edc810b58",
+        "type": "modbus-flex-write",
+        "z": "ed24737d601fa169",
+        "g": "d08f9b64d5113ac7",
+        "name": "Waveshare Config",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "showWarnings": true,
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 590,
+        "y": 880,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "43b5b9c54e908a3a",
+        "type": "modbus-client",
+        "name": "Waveshare Modbus POE ETH Relay (B)",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": true,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "192.168.12.150",
+        "tcpPort": "4196",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showErrors": true,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "48c83b6acfe1d9fa",
+        "type": "group",
+        "z": "ed24737d601fa169",
+        "name": "Waveshare Modbus Inputs",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "386aed390ad74a79",
+            "52bec2fbced350df",
+            "cfc606f5b3e58e0c",
+            "3ff58232f2509f06",
+            "9e670cc665953ac0",
+            "f3732e07b93838be",
+            "74feac26ab507770",
+            "3c30d1aa9a974f6e",
+            "e2b14786582472bb",
+            "d765f9a05e3c672a",
+            "f041569d6bdf8f90",
+            "faae1a9c35338c48",
+            "b54795b57e994f46",
+            "162e8e52e50e7aad",
+            "6419bdfb01fd8deb",
+            "d72102337cffe2dd",
+            "f5d6242c4407ec37"
+        ],
+        "x": 54,
+        "y": 459,
+        "w": 572,
+        "h": 362
+    },
+    {
+        "id": "386aed390ad74a79",
+        "type": "modbus-read",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Output Sampler",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "0",
+        "quantity": "8",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "43b5b9c54e908a3a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 180,
+        "y": 640,
+        "wires": [
+            [
+                "52bec2fbced350df",
+                "3ff58232f2509f06",
+                "f3732e07b93838be",
+                "3c30d1aa9a974f6e",
+                "d765f9a05e3c672a",
+                "faae1a9c35338c48",
+                "162e8e52e50e7aad",
+                "d72102337cffe2dd"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "52bec2fbced350df",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 500,
+        "wires": [
+            [
+                "cfc606f5b3e58e0c"
+            ]
+        ]
+    },
+    {
+        "id": "cfc606f5b3e58e0c",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 1",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3ff58232f2509f06",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 2",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[1]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "9e670cc665953ac0"
+            ]
+        ]
+    },
+    {
+        "id": "9e670cc665953ac0",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 2",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3732e07b93838be",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 3",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[2]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 580,
+        "wires": [
+            [
+                "74feac26ab507770"
+            ]
+        ]
+    },
+    {
+        "id": "74feac26ab507770",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 3",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c30d1aa9a974f6e",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 4",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[3]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 620,
+        "wires": [
+            [
+                "e2b14786582472bb"
+            ]
+        ]
+    },
+    {
+        "id": "e2b14786582472bb",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 4",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d765f9a05e3c672a",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 5",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[4]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 660,
+        "wires": [
+            [
+                "f041569d6bdf8f90"
+            ]
+        ]
+    },
+    {
+        "id": "f041569d6bdf8f90",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 5",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "faae1a9c35338c48",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 6",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[5]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 700,
+        "wires": [
+            [
+                "b54795b57e994f46"
+            ]
+        ]
+    },
+    {
+        "id": "b54795b57e994f46",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 6",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "162e8e52e50e7aad",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 7",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[6]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 740,
+        "wires": [
+            [
+                "6419bdfb01fd8deb"
+            ]
+        ]
+    },
+    {
+        "id": "6419bdfb01fd8deb",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 7",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d72102337cffe2dd",
+        "type": "change",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Samples 8",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[7]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 780,
+        "wires": [
+            [
+                "f5d6242c4407ec37"
+            ]
+        ]
+    },
+    {
+        "id": "f5d6242c4407ec37",
+        "type": "rbe",
+        "z": "ed24737d601fa169",
+        "g": "48c83b6acfe1d9fa",
+        "name": "Events 8",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 540,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "07ffad45ef277610",
+        "type": "group",
+        "z": "ed24737d601fa169",
+        "name": "Waveshare Modbus Outputs",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e508606658fa5c9a",
+            "500e86d4bc6e29b9",
+            "3ba8473d358ffec6",
+            "3dba9c927a3a5414",
+            "2e5903903c55ec12",
+            "a8396ccfd2617593",
+            "60f123f5a76c5798",
+            "156a0e2894372e46"
+        ],
+        "x": 794,
+        "y": 459,
+        "w": 186,
+        "h": 362
+    },
+    {
+        "id": "e508606658fa5c9a",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 1",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "0",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 500,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "500e86d4bc6e29b9",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 2",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "1",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 540,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3ba8473d358ffec6",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 3",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "2",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 580,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3dba9c927a3a5414",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 4",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "3",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 620,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "2e5903903c55ec12",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 5",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "4",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 660,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a8396ccfd2617593",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 6",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "5",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 700,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "60f123f5a76c5798",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 7",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "6",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 740,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "156a0e2894372e46",
+        "type": "modbus-write",
+        "z": "ed24737d601fa169",
+        "g": "07ffad45ef277610",
+        "name": "Input 8",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "7",
+        "quantity": "1",
+        "server": "43b5b9c54e908a3a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 880,
+        "y": 780,
+        "wires": [
+            [],
+            []
+        ]
+    }
+]
