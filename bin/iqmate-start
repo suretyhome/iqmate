@@ -1,14 +1,17 @@
 #!/bin/bash
 
 if [ ! -f /iqmate/iqmate.log ]; then
+    echo "Running initial setup..."
     echo `date "+%D %T"`: Running Setup > /iqmate/iqmate.log
     iqmate-setup &>> /iqmate/iqmate.log
 fi
 
+echo "Starting Mosquitto..."
 echo `date "+%D %T"`: Starting Mosquitto >> /iqmate/iqmate.log
 mosquitto_passwd -c -b /iqmate/mosquitto/passwd iqmate ${IQPANEL_TOKEN}
 mosquitto -c /iqmate/mosquitto/mosquitto.conf -d
 
+echo "Starting AppDaemon..."
 echo `date "+%D %T"`: Starting AppDaemon >> /iqmate/iqmate.log
 cd /iqmate/appdaemon
 sed -i "s/^\s*client_password:.*$/      client_password: ${IQPANEL_TOKEN}/" appdaemon.yaml
@@ -17,6 +20,7 @@ sed -i "s/^\s*panel_token:.*$/  panel_token: ${IQPANEL_TOKEN}/" apps/apps.yaml
 nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 &
 
 if [ ! -f /iqmate/nodered/flows.json ]; then
+    echo "Discovering Qolsys devices..."
     echo `date "+%D %T"`: Discovering Qolsys devices >> /iqmate/iqmate.log
     cd /iqmate/discovery
     sed -i "s/password =.*$/password = \"${IQPANEL_TOKEN}\"/" discover-qolsys.py
@@ -24,6 +28,7 @@ if [ ! -f /iqmate/nodered/flows.json ]; then
     mv flows.json flows_cred.json /iqmate/nodered/
 fi
 
+echo "Starting Node-RED..."
 echo `date "+%D %T"`: Starting Node-RED >> /iqmate/iqmate.log
 cd /iqmate/nodered
 sed -i "s/^\s*\"password\":.*$/        \"password\": \"${IQPANEL_TOKEN}\"/" flows_cred.json
