@@ -22,10 +22,7 @@ nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 
 if [ ! -f /iqmate/nodered/flows.json ]; then
     echo "Discovering Qolsys devices..."
     echo `date "+%D %T"`: Discovering Qolsys devices >> /iqmate/iqmate.log
-    cd /iqmate/discovery
-    sed -i "s/password =.*$/password = \"${IQPANEL_TOKEN}\"/" discover-qolsys.py
-    ./python/bin/python3 discover-qolsys.py
-    mv flows.json flows_cred.json /iqmate/nodered/
+    iqmate-discover
 fi
 
 echo "Starting Node-RED..."

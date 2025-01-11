@@ -1,0 +1,6 @@
+connection: &my-zwave
+    accepter: tcp,10581
+    enable: on
+    options:
+        kickolduser: true
+    connector: serialdev,/dev/tty.usbserial-533D0042421,115200N81,nobreak,local

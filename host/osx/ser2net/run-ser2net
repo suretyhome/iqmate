@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/local/opt/ser2net/sbin/ser2net -n -c ser2net.yaml
