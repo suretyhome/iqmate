@@ -135,7 +135,7 @@ qolsys_nodes_tab = {
 }
 
 global_config = {
-    "id": os.urandom(8).hex(),
+    "id": "12ecc27b2447ef53",
     "type": "global-config",
     "name": "global-config",
     "env": [
@@ -148,7 +148,7 @@ global_config = {
 }
 
 mqtt_broker = {
-    "id": os.urandom(8).hex(),
+    "id": "9ff3a2541d0bc618",
     "type": "mqtt-broker",
     "name": "IQ Mate",
     "broker": "localhost",

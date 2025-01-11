@@ -3,4 +3,5 @@
 cd /iqmate/discovery
 sed -i "s/password =.*$/password = \"${IQPANEL_TOKEN}\"/" discover-qolsys.py
 ./python/bin/python3 discover-qolsys.py
-mv flows.json flows_cred.json /iqmate/nodered/
+timestamp=`date +%Y-%m-%dT%H:%M:%S`
+cp flows.json /iqmate/nodered/lib/flows/Qolsys\ Nodes\ Discovered\ "${timestamp}".json

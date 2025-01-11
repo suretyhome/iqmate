@@ -3,7 +3,7 @@
 if [ ! -f /iqmate/iqmate.log ]; then
     echo "Running initial setup..."
     echo `date "+%D %T"`: Running Setup > /iqmate/iqmate.log
-    iqmate-setup &>> /iqmate/iqmate.log
+    iqmate-setup
 fi
 
 echo "Starting Mosquitto..."
@@ -23,6 +23,7 @@ if [ ! -f /iqmate/nodered/flows.json ]; then
     echo "Discovering Qolsys devices..."
     echo `date "+%D %T"`: Discovering Qolsys devices >> /iqmate/iqmate.log
     iqmate-discover
+    mv /iqmate/discovery/*.json /iqmate/nodered/
 fi
 
 echo "Starting Node-RED..."
