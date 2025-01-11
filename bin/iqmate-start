@@ -1,8 +1,6 @@
 #!/bin/bash
 
 if [ ! -f /iqmate/iqmate.log ]; then
-    echo "Running initial setup..."
-    echo `date "+%D %T"`: Running Setup > /iqmate/iqmate.log
     iqmate-setup
 fi
 

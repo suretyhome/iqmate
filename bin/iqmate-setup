@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [ -f /iqmate/iqmate.log ]; then
+    echo "IQ Mate is already set up"
+    exit 1
+fi
+
+echo "Running initial setup..."
+echo `date "+%D %T"`: Running Setup > /iqmate/iqmate.log
+
+echo "Copying default files..."
 echo `date "+%D %T"`: Copying default files >> /iqmate/iqmate.log
 cp -a /etc/iqmate/. /iqmate/
 
