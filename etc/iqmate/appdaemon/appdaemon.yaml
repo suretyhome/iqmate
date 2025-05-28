@@ -4,11 +4,6 @@ appdaemon:
   elevation: 30
   time_zone: America/New_York
   plugins:
-    HASS:
-      type: hass
-      ha_url:
-      token:
-      cert_verify: True
     MQTT:
       type: mqtt
       verbose: True
