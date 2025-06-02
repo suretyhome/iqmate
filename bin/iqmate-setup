@@ -16,7 +16,7 @@ cd /iqmate
 
 echo "Cloning Qolsys Gateway..."
 echo `date "+%D %T"`: Cloning Qolsys Gateway >> /iqmate/iqmate.log
-git clone https://github.com/XaF/qolsysgw.git &>> /iqmate/iqmate.log
+git clone https://github.com/suretyhome/qolsysgw.git &>> /iqmate/iqmate.log
 cp -a qolsysgw/apps/qolsysgw appdaemon/apps/
 
 echo "Preparing Discovery environment..."
