@@ -11,6 +11,8 @@ def on_connect(client, userdata, flags, reason_code, properties):
 
 def on_message(client, flows, msg):
     topic = msg.topic.split("/")
+    if len(topic) >= 4 and topic[1] == "alarm_control_panel" and topic[2] == "qolsys_panel" and topic[3] == "availability":
+        print("Qolsys Panel is " + msg.payload.decode('utf-8'))
     if len(topic) >= 4 and topic[1] == "binary_sensor" and topic[3] == "config":
         payload = json.loads(msg.payload)
         flows.append(mttq_in_node(payload["name"], payload["state_topic"], payload))
