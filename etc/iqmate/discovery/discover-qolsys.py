@@ -10,6 +10,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
     client.subscribe("qolsys/#")
 
 iq_panel_online_since = None
+iq_panel_devices_discovered = 0
 
 def on_message(client, flows, msg):
     global iq_panel_online_since
@@ -18,9 +19,11 @@ def on_message(client, flows, msg):
         iq_panel_status = msg.payload.decode('utf-8')
         if iq_panel_status == "online":
             iq_panel_online_since = time.time()
+            print("IQ Panel is " + iq_panel_status)
         elif iq_panel_status == "offline":
             iq_panel_online_since = 0
-        print("IQ Panel is " + iq_panel_status)
+        else:
+            print("IQ Panel is " + iq_panel_status)
     if len(topic) >= 4 and topic[1] == "binary_sensor" and topic[3] == "config":
         payload = json.loads(msg.payload)
         flows.append(mttq_in_node(payload["name"], payload["state_topic"], payload))
@@ -113,7 +116,7 @@ def mttq_out_node(name, config):
     return node
 
 def mttq_in_node(name, topic, config):
-    global iq_panel_sensors_group, mqtt_broker
+    global iq_panel_sensors_group, mqtt_broker, iq_panel_devices_discovered
     node = {
         "id": os.urandom(8).hex(),
         "type": "mqtt in",
@@ -132,6 +135,7 @@ def mttq_in_node(name, topic, config):
         "info": json.dumps(config, indent=4)
     }
     iq_panel_sensors_group['nodes'].append(node['id'])
+    iq_panel_devices_discovered += 1
     print("Discovered " + name)
     return node
 
@@ -253,6 +257,15 @@ def layout_nodes(flows):
             node["z"] = qolsys_nodes_tab['id']
             output_i += 1
 
+def waiting_for_discovery():
+    global iq_panel_devices_discovered, iq_panel_online_since
+    if iq_panel_online_since == 0:
+        return True
+    iq_panel_seconds_online = time.time() - iq_panel_online_since
+    if iq_panel_devices_discovered == 0 and iq_panel_online_since > 0 and iq_panel_seconds_online < 30:
+        return True
+    return iq_panel_online_since > 0 and iq_panel_seconds_online < 4
+
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
@@ -262,13 +275,12 @@ mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
 
 iq_panel_online_attempt = 1
-def waiting_for_discovery(): return iq_panel_online_since == 0 or iq_panel_online_since > 0 and time.time() - iq_panel_online_since < 4
 while iq_panel_online_attempt == 1 or waiting_for_discovery():
     time.sleep(1)
     if iq_panel_online_since is None:
         print("It seems there is a problem with Appdaemon or the MQTT broker. Check the logs.")
     elif iq_panel_online_since == 0 and iq_panel_online_attempt % 60 == 1:
-        print("The IQ Panel is offline. Make sure the IP address is correct and the Control4 integration is enabled.")
+        print("IQ Panel is offline. Make sure the IP address is correct and the Control4 integration is enabled.")
     iq_panel_online_attempt += 1
 
 mqttc.loop_stop()
