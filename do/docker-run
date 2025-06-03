@@ -1,8 +1,12 @@
 #!/bin/bash
 
 if [ $# -lt 2 ]; then
-    echo 'Usage: <IQ Panel Host> <IQ Panel Secure Token>'
+    echo 'Usage: <IQ Panel Host> <IQ Panel Secure Token> [--reset]'
     exit 1
+fi
+
+if [ "$3" = "--reset" ]; then
+    rm -Rf shared/*
 fi
 
 docker run --rm -it \
