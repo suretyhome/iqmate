@@ -262,7 +262,7 @@ def waiting_for_discovery():
     if iq_panel_online_since == 0:
         return True
     iq_panel_seconds_online = time.time() - iq_panel_online_since
-    if iq_panel_devices_discovered == 0 and iq_panel_online_since > 0 and iq_panel_seconds_online < 30:
+    if iq_panel_devices_discovered == 0 and iq_panel_online_since > 0 and iq_panel_seconds_online < 600:
         return True
     return iq_panel_online_since > 0 and iq_panel_seconds_online < 4
 
