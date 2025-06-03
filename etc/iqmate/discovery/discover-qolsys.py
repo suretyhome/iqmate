@@ -9,10 +9,18 @@ import paho.mqtt.client as mqtt
 def on_connect(client, userdata, flags, reason_code, properties):
     client.subscribe("qolsys/#")
 
+iq_panel_online_since = None
+
 def on_message(client, flows, msg):
+    global iq_panel_online_since
     topic = msg.topic.split("/")
     if len(topic) >= 4 and topic[1] == "alarm_control_panel" and topic[2] == "qolsys_panel" and topic[3] == "availability":
-        print("Qolsys Panel is " + msg.payload.decode('utf-8'))
+        iq_panel_status = msg.payload.decode('utf-8')
+        if iq_panel_status == "online":
+            iq_panel_online_since = time.time()
+        elif iq_panel_status == "offline":
+            iq_panel_online_since = 0
+        print("IQ Panel is " + iq_panel_status)
     if len(topic) >= 4 and topic[1] == "binary_sensor" and topic[3] == "config":
         payload = json.loads(msg.payload)
         flows.append(mttq_in_node(payload["name"], payload["state_topic"], payload))
@@ -252,7 +260,17 @@ password = ""
 mqttc.username_pw_set("iqmate", password)
 mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
-time.sleep(4)
+
+iq_panel_online_attempt = 1
+def waiting_for_discovery(): return iq_panel_online_since == 0 or iq_panel_online_since > 0 and time.time() - iq_panel_online_since < 4
+while iq_panel_online_attempt == 1 or waiting_for_discovery():
+    time.sleep(1)
+    if iq_panel_online_since is None:
+        print("It seems there is a problem with Appdaemon or the MQTT broker. Check the logs.")
+    elif iq_panel_online_since == 0 and iq_panel_online_attempt % 60 == 1:
+        print("The IQ Panel is offline. Make sure the IP address is correct and the Control4 integration is enabled.")
+    iq_panel_online_attempt += 1
+
 mqttc.loop_stop()
 
 layout_nodes(flows)
