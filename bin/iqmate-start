@@ -15,7 +15,8 @@ cd /iqmate/appdaemon
 sed -i "s/^\s*client_password:.*$/      client_password: ${IQPANEL_TOKEN}/" appdaemon.yaml
 sed -i "s/^\s*panel_host:.*$/  panel_host: ${IQPANEL_HOST}/" apps/apps.yaml
 sed -i "s/^\s*panel_token:.*$/  panel_token: ${IQPANEL_TOKEN}/" apps/apps.yaml
-nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid > /dev/null 2>&1 &
+rm -f /iqmate/appdaemon/.pid
+nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid >> /iqmate/appdaemon/logs/nohup.out 2>&1 &
 
 if [ ! -f /iqmate/nodered/flows.json ]; then
     echo "Discovering Qolsys devices..."
