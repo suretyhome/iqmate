@@ -9,7 +9,7 @@ if [ "$3" = "--reset" ]; then
     rm -Rf shared/*
 fi
 
-docker run --rm -it \
+MSYS_NO_PATHCONV=1 docker run --rm -it \
     -p 1880:1880 -p 1883:1883 \
     -v $PWD/shared:/iqmate -w /iqmate \
     -e IQPANEL_HOST=$1 -e IQPANEL_TOKEN=$2 \
