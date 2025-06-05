@@ -8,16 +8,23 @@ set "should_reset="
 set "arg1="
 set "arg2="
 
-:: Parse arguments
+:: Parse arguments and assign variables
+set "next_is_shared_value="
 for %%A in (%*) do (
-    echo %%A | findstr /B /C:"--shared=" >nul
-    if !errorlevel! == 0 (
-        for /f "tokens=2 delims==" %%B in ("%%A") do (
-            set "shared_dir=%%B"
-        )
+    set "current_arg=%%A"
+    
+    if "!next_is_shared_value!" == "1" (
+        set "shared_dir=!current_arg!"
+        set "next_is_shared_value="
     ) else (
-        echo %%A | findstr /B /C:"--reset" >nul
+        :: Check for --shared= with equals
+        echo !current_arg! | find "--shared=" >nul
         if !errorlevel! == 0 (
+            set "temp_arg=!current_arg!"
+            set "shared_dir=!temp_arg:*--shared=!"
+        ) else if "!current_arg!" == "--shared" (
+            set "next_is_shared_value=1"
+        ) else if "!current_arg!" == "--reset" (
             set "should_reset=1"
         ) else (
             if "!arg1!" == "" (
@@ -44,6 +51,11 @@ if "!should_reset!"=="1" (
     if /I "!confirm!" == "y" (
         del /Q "!shared_dir!\*"
     )
+)
+
+::Get absolute path from shared_dir
+if not "!shared_dir:~1,1!" == ":" (
+    set "shared_dir=%CD%\!shared_dir!"
 )
 
 :: Run Docker command with saved arguments
