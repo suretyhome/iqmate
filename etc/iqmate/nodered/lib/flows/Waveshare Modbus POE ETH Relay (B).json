@@ -2,7 +2,7 @@
     {
         "id": "cf68699942a9c91b",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -20,7 +20,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 180,
         "wires": [
             [
@@ -31,7 +31,7 @@
     {
         "id": "2e8a8a8c72337c54",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -49,7 +49,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 140,
         "wires": [
             [
@@ -60,7 +60,7 @@
     {
         "id": "7f0b348014fecc08",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -78,7 +78,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 220,
         "wires": [
             [
@@ -89,7 +89,7 @@
     {
         "id": "a89e457de24803fa",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -107,7 +107,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 260,
         "wires": [
             [
@@ -118,7 +118,7 @@
     {
         "id": "25e7d5ac1dee8d54",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -136,7 +136,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 300,
         "wires": [
             [
@@ -147,7 +147,7 @@
     {
         "id": "d3dc28727bd0c0ba",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -165,7 +165,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 380,
         "wires": [
             [
@@ -176,7 +176,7 @@
     {
         "id": "d46bae6f2808700d",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -194,7 +194,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 340,
         "wires": [
             [
@@ -205,7 +205,7 @@
     {
         "id": "515f7da3f0599ee8",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "",
         "props": [
             {
@@ -223,7 +223,7 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 690,
+        "x": 670,
         "y": 420,
         "wires": [
             [
@@ -234,7 +234,7 @@
     {
         "id": "79de843293d7b61b",
         "type": "group",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "Waveshare Modbus Inputs",
         "style": {
             "label": true
@@ -250,7 +250,7 @@
             "d43814843498f85e",
             "13221a3e2435e24f"
         ],
-        "x": 134,
+        "x": 114,
         "y": 99,
         "w": 392,
         "h": 362
@@ -345,63 +345,9 @@
         "info": "Get Element from Input_Number"
     },
     {
-        "id": "0ab68607f9fc9894",
-        "type": "catch",
-        "z": "8e57b4bfe258b915",
-        "name": "",
-        "scope": [
-            "4fda3be8cc6ffd97"
-        ],
-        "uncaught": false,
-        "x": 250,
-        "y": 260,
-        "wires": [
-            [
-                "3883a5f0cb3286d9"
-            ]
-        ]
-    },
-    {
-        "id": "a3c630062b336f56",
-        "type": "debug",
-        "z": "8e57b4bfe258b915",
-        "name": "Error Debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "error.message",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 630,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "3883a5f0cb3286d9",
-        "type": "rbe",
-        "z": "8e57b4bfe258b915",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 430,
-        "y": 260,
-        "wires": [
-            [
-                "a3c630062b336f56"
-            ]
-        ]
-    },
-    {
         "id": "050a36539cb4a60e",
         "type": "modbus-read",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input Sampler",
         "topic": "",
@@ -422,7 +368,7 @@
         "ioFile": "",
         "useIOForPayload": false,
         "emptyMsgOnFail": false,
-        "x": 250,
+        "x": 230,
         "y": 280,
         "wires": [
             [
@@ -441,7 +387,7 @@
     {
         "id": "799e69d16a7ddcc9",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 4",
         "env": [
@@ -451,7 +397,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 260,
         "wires": [
             []
@@ -460,7 +406,7 @@
     {
         "id": "f54a75b36f26b380",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 3",
         "env": [
@@ -470,7 +416,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 220,
         "wires": [
             []
@@ -479,7 +425,7 @@
     {
         "id": "995ec097a882306e",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 2",
         "env": [
@@ -489,7 +435,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 180,
         "wires": [
             []
@@ -498,10 +444,10 @@
     {
         "id": "f016591933bd639d",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": " Input 1",
-        "x": 450,
+        "x": 430,
         "y": 140,
         "wires": [
             []
@@ -510,7 +456,7 @@
     {
         "id": "f106e56978f94314",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 5",
         "env": [
@@ -520,7 +466,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 300,
         "wires": [
             []
@@ -529,7 +475,7 @@
     {
         "id": "0ade26295503288b",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 6",
         "env": [
@@ -539,7 +485,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 340,
         "wires": [
             []
@@ -548,7 +494,7 @@
     {
         "id": "d43814843498f85e",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 7",
         "env": [
@@ -558,7 +504,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 380,
         "wires": [
             []
@@ -567,7 +513,7 @@
     {
         "id": "13221a3e2435e24f",
         "type": "subflow:8e57b4bfe258b915",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "79de843293d7b61b",
         "name": "Input 8",
         "env": [
@@ -577,7 +523,7 @@
                 "type": "num"
             }
         ],
-        "x": 450,
+        "x": 430,
         "y": 420,
         "wires": [
             []
@@ -616,7 +562,7 @@
     {
         "id": "6c4d2fb2075c540f",
         "type": "group",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "Waveshare Modbus Set Up (do this once)",
         "style": {
             "label": true
@@ -626,7 +572,7 @@
             "e518cafae245cd00",
             "8c3ef1a426bc2b5b"
         ],
-        "x": 214,
+        "x": 194,
         "y": 499,
         "w": 652,
         "h": 82
@@ -634,7 +580,7 @@
     {
         "id": "7f250cacabc2f12e",
         "type": "inject",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "6c4d2fb2075c540f",
         "name": "Set Contol Mode",
         "props": [
@@ -653,7 +599,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 340,
+        "x": 320,
         "y": 540,
         "wires": [
             [
@@ -664,7 +610,7 @@
     {
         "id": "e518cafae245cd00",
         "type": "change",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "6c4d2fb2075c540f",
         "name": "Control Mode Normal",
         "rules": [
@@ -681,7 +627,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 540,
+        "x": 520,
         "y": 540,
         "wires": [
             [
@@ -692,7 +638,7 @@
     {
         "id": "8c3ef1a426bc2b5b",
         "type": "modbus-flex-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "6c4d2fb2075c540f",
         "name": "Waveshare Config",
         "showStatusActivities": true,
@@ -703,7 +649,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 750,
+        "x": 730,
         "y": 540,
         "wires": [
             [],
@@ -713,7 +659,7 @@
     {
         "id": "ed63855a7b62263b",
         "type": "group",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "name": "Waveshare Modbus Outputs",
         "style": {
             "label": true
@@ -728,7 +674,7 @@
             "60dac7be4c0ae9b8",
             "500645bca5d40d97"
         ],
-        "x": 754,
+        "x": 734,
         "y": 99,
         "w": 185,
         "h": 362
@@ -736,7 +682,7 @@
     {
         "id": "acc5d7814352db79",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 1",
         "showStatusActivities": false,
@@ -751,7 +697,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 140,
         "wires": [
             [],
@@ -761,7 +707,7 @@
     {
         "id": "5820f471c90b06f6",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 2",
         "showStatusActivities": false,
@@ -776,7 +722,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 180,
         "wires": [
             [],
@@ -786,7 +732,7 @@
     {
         "id": "bc852a5846ee91ae",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 3",
         "showStatusActivities": false,
@@ -801,7 +747,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 220,
         "wires": [
             [],
@@ -811,7 +757,7 @@
     {
         "id": "a77fa64fa6960de1",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 4",
         "showStatusActivities": false,
@@ -826,7 +772,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 260,
         "wires": [
             [],
@@ -836,7 +782,7 @@
     {
         "id": "4c60a4c02c674654",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 5",
         "showStatusActivities": false,
@@ -851,7 +797,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 300,
         "wires": [
             [],
@@ -861,7 +807,7 @@
     {
         "id": "76aead7bd00dc6c0",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 6",
         "showStatusActivities": false,
@@ -876,7 +822,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 340,
         "wires": [
             [],
@@ -886,7 +832,7 @@
     {
         "id": "60dac7be4c0ae9b8",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 7",
         "showStatusActivities": false,
@@ -901,7 +847,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 380,
         "wires": [
             [],
@@ -911,7 +857,7 @@
     {
         "id": "500645bca5d40d97",
         "type": "modbus-write",
-        "z": "892f3f7f7c4698db",
+        "z": "fdf74b56c6748c2d",
         "g": "ed63855a7b62263b",
         "name": "Output 8",
         "showStatusActivities": false,
@@ -926,7 +872,7 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 840,
+        "x": 820,
         "y": 420,
         "wires": [
             [],
