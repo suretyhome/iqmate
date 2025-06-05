@@ -33,7 +33,7 @@ if not exist "%shared_dir%" (
 )
 
 :: Reset directory if requested
-if "%should_reset%"="1" (
+if "%should_reset%"=="1" (
     set /P "confirm=Are you sure you want to delete everything in %shared_dir%? (y/n): "
     if /I "%confirm%" == "y" (
         del /Q "%shared_dir%\*"
