@@ -15,12 +15,17 @@ for %%A in (%*) do (
         for /f "tokens=2 delims==" %%B in ("%%A") do (
             set "shared_dir=%%B"
         )
-    ) else if "%%A" == "--reset" (
-        set "should_reset=1"
-    ) else if "!arg1!" == "" (
-        set "arg1=%%A"
-    ) else if "!arg2!" == "" (
-        set "arg2=%%A"
+    ) else (
+        echo %%A | findstr /B /C:"--reset" >nul
+        if !errorlevel! == 0 (
+            set "should_reset=1"
+        ) else (
+            if "!arg1!" == "" (
+                set "arg1=%%A"
+            ) else if "!arg2!" == "" (
+                set "arg2=%%A"
+            )
+        )
     )
 )
 
