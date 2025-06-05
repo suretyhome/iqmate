@@ -24,8 +24,8 @@ RUN npm install -g --unsafe-perm node-red \
     node-red-contrib-modbus \
     node-red-contrib-zwave-js
 
-COPY etc/iqmate /etc/iqmate
-COPY bin/* /bin/
+COPY app/etc/iqmate /etc/iqmate
+COPY app/bin/* /bin/
 
 EXPOSE 1880 1883
 
