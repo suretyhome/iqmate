@@ -12,8 +12,9 @@ set "arg2="
 for %%A in (%*) do (
     echo %%A | findstr /B /C:"--shared=" >nul
     if !errorlevel! == 0 (
-        set "shared_dir=%%A"
-        set "shared_dir=!shared_dir:~9!"
+        for /f "tokens=2 delims==" %%B in ("%%A") do (
+            set "shared_dir=%%B"
+        )
     ) else if "%%A" == "--reset" (
         set "should_reset=1"
     ) else if "!arg1!" == "" (
