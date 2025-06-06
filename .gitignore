@@ -1,1 +1,4 @@
 .DS_Store
+
+# Don't version control the default workspace folder
+/workspace
