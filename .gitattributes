@@ -1,1 +1,2 @@
 * text eol=lf
+/do/*.cmd text eol=crlf
