@@ -116,19 +116,19 @@ def mttq_out_node(name, config):
     return node
 
 def mttq_in_node(name, topic, config):
-    global iq_panel_sensors_group, mqtt_broker, iq_panel_devices_discovered
+    global iq_panel_sensors_group, iq_panel_devices_discovered
+    # Create a subflow instance instead of a MQTT in node
     node = {
         "id": os.urandom(8).hex(),
-        "type": "mqtt in",
+        "type": "subflow:258764906056d24a",  # Reference to the Qolsys Sensor subflow
         "name": name,
-        "topic": topic,
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": mqtt_broker['id'],
-        "nl": False,
-        "rap": True,
-        "rh": 0,
-        "inputs": 0,
+        "env": [
+            {
+                "name": "topic",
+                "type": "str",
+                "value": topic
+            }
+        ],
         "wires": [
             []
         ],
@@ -219,13 +219,194 @@ iq_panel_commands_group = {
     # "y": 39
 }
 
+# Add the subflow definition to the flows
+qolsys_sensor_subflow = {
+    "id": "258764906056d24a",
+    "type": "subflow",
+    "name": "Qolsys Sensor",
+    "info": "",
+    "category": "",
+    "in": [],
+    "out": [
+        {
+            "x": 620,
+            "y": 240,
+            "wires": [
+                {
+                    "id": "f0438b0b28420357",
+                    "port": 0
+                }
+            ]
+        }
+    ],
+    "env": [
+        {
+            "name": "topic",
+            "type": "str",
+            "value": "null",
+            "ui": {
+                "icon": "font-awesome/fa-gears",
+                "label": {
+                    "en-US": "Topic"
+                },
+                "type": "input",
+                "opts": {
+                    "types": [
+                        "str",
+                        "num",
+                        "bool",
+                        "json",
+                        "bin",
+                        "env",
+                        "conf-types"
+                    ]
+                }
+            }
+        }
+    ],
+    "meta": {},
+    "color": "#3FADB5",
+    "icon": "node-red/bridge.svg",
+    "status": {
+        "x": 500,
+        "y": 400,
+        "wires": [
+            {
+                "id": "666235ce67962b0a",
+                "port": 0
+            }
+        ]
+    }
+}
+
+# Add the subflow nodes
+subflow_nodes = [
+    {
+        "id": "29187c98c578000e",
+        "type": "mqtt in",
+        "z": "258764906056d24a",
+        "name": "",
+        "topic": "${topic}",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": mqtt_broker['id'],
+        "nl": False,
+        "rap": True,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 240,
+        "wires": [
+            [
+                "f0438b0b28420357"
+            ]
+        ]
+    },
+    {
+        "id": "f0438b0b28420357",
+        "type": "function",
+        "z": "258764906056d24a",
+        "name": "Check Payload",
+        "func": "let str = msg.payload;\nlet topic = env.get('topic');\nglobal.set(\"lastPayload\", str)\n\nif (str == 'Open') {\n    msg.payload = false;\n} else if (str == 'Closed') {\n    msg.payload = true;\n} else if (str == 'test') {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"disconnected\" });\n    global.set(\"status\", 'disconnected');\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: \"connected\" });\nglobal.set(\"status\", 'connected');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 240,
+        "wires": [
+            []
+        ],
+        "info": ""
+    },
+    {
+        "id": "666235ce67962b0a",
+        "type": "status",
+        "z": "258764906056d24a",
+        "name": "",
+        "scope": [
+            "f0438b0b28420357"
+        ],
+        "x": 380,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "53d8536c787ebfec",
+        "type": "inject",
+        "z": "258764906056d24a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": True,
+        "onceDelay": "0",
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "f0438b0b28420357"
+            ]
+        ]
+    },
+    {
+        "id": "cfb6a7dd2702e5d9",
+        "type": "function",
+        "z": "258764906056d24a",
+        "name": "Check if MQTT is Disconnected",
+        "func": "if (global.get(\"status\") == 'disconnected') {\n    node.error(`Error: Qolsys Sensor with topic at MQTT path ${env.get('topic')} invalid topic.`, msg);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9bcec989785e036f",
+        "type": "inject",
+        "z": "258764906056d24a",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": True,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "cfb6a7dd2702e5d9"
+            ]
+        ]
+    }
+]
+
 flows = [
+    qolsys_sensor_subflow,  # Add the subflow definition
     qolsys_nodes_tab,
     global_config,
     mqtt_broker,
     iq_panel_sensors_group,
     iq_panel_commands_group
-]
+] + subflow_nodes  # Add the subflow nodes
 
 def layout_nodes(flows):
     global qolsys_nodes_tab
@@ -236,7 +417,8 @@ def layout_nodes(flows):
     output_i = 0
     for i, _ in enumerate(flows):
         node = flows[i]
-        if node["type"] in ["mqtt in"]:
+        # Changed to look for subflow instances instead of mqtt in nodes
+        if node["type"].startswith("subflow:"):
             column = input_i // input_rows
             row = input_i % input_rows
             node["x"] = 160 + 200 * column
