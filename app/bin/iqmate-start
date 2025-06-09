@@ -19,7 +19,7 @@ rm -f /iqmate/appdaemon/.pid
 nohup appdaemon -c /iqmate/appdaemon -p /iqmate/appdaemon/.pid >> /iqmate/appdaemon/logs/nohup.out 2>&1 &
 
 if [ ! -f /iqmate/nodered/flows.json ]; then
-    echo "Discovering Qolsys devices..."
+    echo "Discovering Qolsys devices... (Ctrl-C to cancel)"
     echo `date "+%D %T"`: Discovering Qolsys devices >> /iqmate/iqmate.log
     iqmate-discover
     mv /iqmate/discovery/*.json /iqmate/nodered/

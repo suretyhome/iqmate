@@ -259,7 +259,7 @@ def layout_nodes(flows):
 
 def waiting_for_discovery():
     global iq_panel_devices_discovered, iq_panel_online_since
-    if iq_panel_online_since == 0:
+    if not iq_panel_online_since:
         return True
     iq_panel_seconds_online = time.time() - iq_panel_online_since
     if iq_panel_devices_discovered == 0 and iq_panel_online_since > 0 and iq_panel_seconds_online < 600:
@@ -277,7 +277,7 @@ mqttc.loop_start()
 iq_panel_online_attempt = 1
 while iq_panel_online_attempt == 1 or waiting_for_discovery():
     time.sleep(1)
-    if iq_panel_online_since is None:
+    if iq_panel_online_since is None and iq_panel_online_attempt % 5 == 1:
         print("It seems there is a problem with Appdaemon or the MQTT broker. Check the logs.")
     elif iq_panel_online_since == 0 and iq_panel_online_attempt % 60 == 1:
         print("IQ Panel is offline. Make sure the IP address is correct and the Control4 integration is enabled.")
