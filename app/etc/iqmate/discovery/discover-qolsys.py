@@ -26,12 +26,16 @@ def on_message(client, flows, msg):
             print("IQ Panel is " + iq_panel_status)
     if len(topic) >= 4 and topic[1] == "binary_sensor" and topic[3] == "config":
         payload = json.loads(msg.payload)
-        flows.append(mttq_in_node(payload["name"], payload["state_topic"], payload))
+        # Extract sensor name from state topic path
+        state_topic_parts = payload["state_topic"].split('/')
+        sensor_name = state_topic_parts[2] if len(state_topic_parts) > 2 else payload["name"]
+        flows.append(mttq_sensor_subflow_node(payload["name"], sensor_name, payload))
     if len(topic) >= 5 and topic[1] == "alarm_control_panel" and topic[4] == "config":
         payload = json.loads(msg.payload)
         command_template = json.loads(payload["command_template"])
         session = command_template["session_token"]
-        flows.append(mttq_in_node("IQ Panel Status", payload["state_topic"], payload))
+        # create IQ Panel Status as a regular MQTT in node instead of subflow
+        flows.append(mqtt_in_node("IQ Panel Status", payload["state_topic"], payload))
         iq_panel_command_node = mttq_out_node("IQ Panel Command", payload)
         flows.append(iq_panel_command_node)
         flows.append(panel_command_node("Arm Stay", payload["command_topic"], panel_command("ARM_HOME", session, {
@@ -115,18 +119,43 @@ def mttq_out_node(name, config):
     iq_panel_commands_group['nodes'].append(node['id'])
     return node
 
-def mttq_in_node(name, topic, config):
-    global iq_panel_sensors_group, iq_panel_devices_discovered
-    # Create a subflow instance instead of a MQTT in node
+def mqtt_in_node(name, topic, config):
+    global iq_panel_sensors_group, iq_panel_devices_discovered, mqtt_broker, qolsys_nodes_tab
     node = {
         "id": os.urandom(8).hex(),
-        "type": "subflow:258764906056d24a",  # Reference to the Qolsys Sensor subflow
+        "type": "mqtt in",
+        "z": qolsys_nodes_tab['id'],
+        "name": name,
+        "topic": topic,
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": mqtt_broker['id'],
+        "nl": False,
+        "rap": True,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 80,
+        "wires": [[]],
+        "info": json.dumps(config, indent=4)
+    }
+    iq_panel_sensors_group['nodes'].append(node['id'])
+    iq_panel_devices_discovered += 1
+    print("Discovered " + name)
+    return node
+
+def mttq_sensor_subflow_node(name, sensor_name, config):
+    global iq_panel_sensors_group, iq_panel_devices_discovered
+    # Create an instance of the Qolsys Sensor subflow
+    node = {
+        "id": os.urandom(8).hex(),
+        "type": "subflow:a265f72314631d67",  # Reference to subflow
         "name": name,
         "env": [
             {
-                "name": "topic",
+                "name": "sensorName",
                 "type": "str",
-                "value": topic
+                "value": sensor_name
             }
         ],
         "wires": [
@@ -202,8 +231,6 @@ iq_panel_sensors_group = {
         "label": True
     },
     "nodes": [],
-    # "x": 34,
-    # "y": 39
 }
 
 iq_panel_commands_group = {
@@ -215,13 +242,10 @@ iq_panel_commands_group = {
         "label": True
     },
     "nodes": [],
-    # "x": 34,
-    # "y": 39
 }
 
-# Add the subflow definition to the flows
 qolsys_sensor_subflow = {
-    "id": "258764906056d24a",
+    "id": "a265f72314631d67",
     "type": "subflow",
     "name": "Qolsys Sensor",
     "info": "",
@@ -233,7 +257,7 @@ qolsys_sensor_subflow = {
             "y": 240,
             "wires": [
                 {
-                    "id": "f0438b0b28420357",
+                    "id": "2506b9502aa74dfa",
                     "port": 0
                 }
             ]
@@ -241,13 +265,13 @@ qolsys_sensor_subflow = {
     ],
     "env": [
         {
-            "name": "topic",
+            "name": "sensorName",
             "type": "str",
-            "value": "null",
+            "value": "back_door",
             "ui": {
                 "icon": "font-awesome/fa-gears",
                 "label": {
-                    "en-US": "Topic"
+                    "en-US": "Sensor Name"
                 },
                 "type": "input",
                 "opts": {
@@ -272,42 +296,61 @@ qolsys_sensor_subflow = {
         "y": 400,
         "wires": [
             {
-                "id": "666235ce67962b0a",
+                "id": "8282065bdfc606db",
                 "port": 0
             }
         ]
     }
 }
 
-# Add the subflow nodes
 subflow_nodes = [
     {
-        "id": "29187c98c578000e",
+        "id": "61323cb5644feea8",
         "type": "mqtt in",
-        "z": "258764906056d24a",
+        "z": "a265f72314631d67",
         "name": "",
-        "topic": "${topic}",
+        "topic": "qolsys/binary_sensor/+/state",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": mqtt_broker['id'],
+        "broker": "9ff3a2541d0bc618",
         "nl": False,
         "rap": True,
         "rh": 0,
         "inputs": 0,
-        "x": 270,
-        "y": 240,
+        "x": 240,
+        "y": 180,
         "wires": [
             [
-                "f0438b0b28420357"
+                "14b3eda03dc0bb5a"
             ]
         ]
     },
     {
-        "id": "f0438b0b28420357",
+        "id": "14b3eda03dc0bb5a",
         "type": "function",
-        "z": "258764906056d24a",
+        "z": "a265f72314631d67",
+        "name": "Filter by Sensor",
+        "func": "let targetSensor = env.get('sensorName');\nlet topicParts = msg.topic.split('/');\nlet sensorFromTopic = topicParts[2];\n\nif (sensorFromTopic === targetSensor) {\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "2506b9502aa74dfa"
+            ]
+        ]
+    },
+    {
+        "id": "2506b9502aa74dfa",
+        "type": "function",
+        "z": "a265f72314631d67",
         "name": "Check Payload",
-        "func": "let str = msg.payload;\nlet topic = env.get('topic');\nglobal.set(\"lastPayload\", str)\n\nif (str == 'Open') {\n    msg.payload = false;\n} else if (str == 'Closed') {\n    msg.payload = true;\n} else if (str == 'test') {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"disconnected\" });\n    global.set(\"status\", 'disconnected');\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: \"connected\" });\nglobal.set(\"status\", 'connected');\nreturn msg;",
+        "func": "let str = msg.payload;\nlet sensorName = env.get('sensorName');\nflow.set(\"lastPayload\", str)\n\nif (str == 'Open') {\n    msg.payload = true;\n} else if (str == 'Closed') {\n    msg.payload = false;\n} else if (str == 'test') {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Status: disconnected\" });\n    flow.set(\"status\", 'disconnected');\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: `Status: connected, Value: ${msg.payload}` });\nflow.set(\"status\", 'connected');\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -318,16 +361,15 @@ subflow_nodes = [
         "y": 240,
         "wires": [
             []
-        ],
-        "info": ""
+        ]
     },
     {
-        "id": "666235ce67962b0a",
+        "id": "8282065bdfc606db",
         "type": "status",
-        "z": "258764906056d24a",
+        "z": "a265f72314631d67",
         "name": "",
         "scope": [
-            "f0438b0b28420357"
+            "2506b9502aa74dfa"
         ],
         "x": 380,
         "y": 400,
@@ -336,10 +378,10 @@ subflow_nodes = [
         ]
     },
     {
-        "id": "53d8536c787ebfec",
+        "id": "bf006edf334fde87",
         "type": "inject",
-        "z": "258764906056d24a",
-        "name": "",
+        "z": "a265f72314631d67",
+        "name": "Test Connection",
         "props": [
             {
                 "p": "payload"
@@ -352,20 +394,20 @@ subflow_nodes = [
         "topic": "",
         "payload": "test",
         "payloadType": "str",
-        "x": 290,
-        "y": 180,
+        "x": 240,
+        "y": 240,
         "wires": [
             [
-                "f0438b0b28420357"
+                "2506b9502aa74dfa"
             ]
         ]
     },
     {
-        "id": "cfb6a7dd2702e5d9",
+        "id": "f93a265ca294bbbd",
         "type": "function",
-        "z": "258764906056d24a",
+        "z": "a265f72314631d67",
         "name": "Check if MQTT is Disconnected",
-        "func": "if (global.get(\"status\") == 'disconnected') {\n    node.error(`Error: Qolsys Sensor with topic at MQTT path ${env.get('topic')} invalid topic.`, msg);\n}\n\nreturn msg;",
+        "func": "if (flow.get(\"status\") == 'disconnected') {\n    let sensorName = env.get('sensorName');\n    let mqttTopic = `qolsys/binary_sensor/${sensorName}/state`;\n    node.error(`Error: Qolsys Sensor '${sensorName}' at MQTT path '${mqttTopic}' - no messages received.`, msg);\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -379,21 +421,21 @@ subflow_nodes = [
         ]
     },
     {
-        "id": "9bcec989785e036f",
+        "id": "a36d1af5e7d5e8af",
         "type": "inject",
-        "z": "258764906056d24a",
-        "name": "",
+        "z": "a265f72314631d67",
+        "name": "Trigger After .1 Seconds",
         "props": [],
         "repeat": "",
         "crontab": "",
         "once": True,
-        "onceDelay": 0.1,
+        "onceDelay": ".1",
         "topic": "",
-        "x": 330,
+        "x": 270,
         "y": 320,
         "wires": [
             [
-                "cfb6a7dd2702e5d9"
+                "f93a265ca294bbbd"
             ]
         ]
     }
@@ -410,31 +452,43 @@ flows = [
 
 def layout_nodes(flows):
     global qolsys_nodes_tab
-    y_offset = 40
-    input_rows = 9
-    input_i = 0
+    y_offset = 50
+    input_rows = 10
+    sensor_i = 0
     command_i = 0
     output_i = 0
+    
+    # First: position IQ Panel Status at top
     for i, _ in enumerate(flows):
         node = flows[i]
-        # Changed to look for subflow instances instead of mqtt in nodes
+        if node["type"] == "mqtt in" and "z" in node and node["z"] == qolsys_nodes_tab['id']:
+            node["x"] = 160
+            node["y"] = 80
+            sensor_i = 1
+            break
+    
+    # Second: position all subflow sensor instances
+    for i, _ in enumerate(flows):
+        node = flows[i]
         if node["type"].startswith("subflow:"):
-            column = input_i // input_rows
-            row = input_i % input_rows
+            column = sensor_i // input_rows
+            row = sensor_i % input_rows
             node["x"] = 160 + 200 * column
             node["y"] = 80 + row * y_offset
             node["z"] = qolsys_nodes_tab['id']
-            input_i += 1
-    column = input_i // input_rows
+            sensor_i += 1
+            
+    # Position command nodes in the commands group
+    command_column = (sensor_i // input_rows) + 1
     for i, _ in enumerate(flows):
         node = flows[i]
         if node["type"] in ["change"]:
-            node["x"] = 440 + 200 * column
+            node["x"] = 160 + 200 * command_column
             node["y"] = 80 + command_i * y_offset
             node["z"] = qolsys_nodes_tab['id']
             command_i += 1
         if node["type"] in ["mqtt out"]:
-            node["x"] = 660 + 200 * column
+            node["x"] = 160 + 200 * (command_column + 1)
             node["y"] = 160
             node["z"] = qolsys_nodes_tab['id']
             output_i += 1
@@ -451,7 +505,7 @@ def waiting_for_discovery():
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
-password = ""
+password = "djyw1n"
 mqttc.username_pw_set("iqmate", password)
 mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
