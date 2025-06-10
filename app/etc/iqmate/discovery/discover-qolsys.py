@@ -267,7 +267,7 @@ qolsys_sensor_subflow = {
         {
             "name": "sensorName",
             "type": "str",
-            "value": "back_door",
+            "value": "null",
             "ui": {
                 "icon": "font-awesome/fa-gears",
                 "label": {
@@ -350,7 +350,7 @@ subflow_nodes = [
         "type": "function",
         "z": "a265f72314631d67",
         "name": "Check Payload",
-        "func": "let str = msg.payload;\nlet sensorName = env.get('sensorName');\nflow.set(\"lastPayload\", str)\n\nif (str == 'Open') {\n    msg.payload = true;\n} else if (str == 'Closed') {\n    msg.payload = false;\n} else if (str == 'test') {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Status: disconnected\" });\n    flow.set(\"status\", 'disconnected');\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: `Status: connected, Value: ${msg.payload}` });\nflow.set(\"status\", 'connected');\nreturn msg;",
+        "func": "let str = msg.payload;\nlet sensorName = env.get('sensorName');\nlet sensorState\nflow.set(\"lastPayload\", str)\n\nif (str == 'Open') {\n    msg.payload = true;\n    sensorState = 'active'\n} else if (str == 'Closed') {\n    msg.payload = false;\n    sensorState = 'inactive'\n} else if (str == 'test') {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"disconnected\" });\n    flow.set(\"status\", 'disconnected');\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: `connected, ${sensorState}` });\nflow.set(\"status\", 'connected');\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -495,7 +495,7 @@ def layout_nodes(flows):
 
 def waiting_for_discovery():
     global iq_panel_devices_discovered, iq_panel_online_since
-    if not iq_panel_online_since:
+    if iq_panel_online_since == 0:
         return True
     iq_panel_seconds_online = time.time() - iq_panel_online_since
     if iq_panel_devices_discovered == 0 and iq_panel_online_since > 0 and iq_panel_seconds_online < 600:
@@ -505,7 +505,7 @@ def waiting_for_discovery():
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata=flows)
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
-password = "djyw1n"
+password = ""
 mqttc.username_pw_set("iqmate", password)
 mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
@@ -513,7 +513,7 @@ mqttc.loop_start()
 iq_panel_online_attempt = 1
 while iq_panel_online_attempt == 1 or waiting_for_discovery():
     time.sleep(1)
-    if iq_panel_online_since is None and iq_panel_online_attempt % 5 == 1:
+    if iq_panel_online_since is None:
         print("It seems there is a problem with Appdaemon or the MQTT broker. Check the logs.")
     elif iq_panel_online_since == 0 and iq_panel_online_attempt % 60 == 1:
         print("IQ Panel is offline. Make sure the IP address is correct and the Control4 integration is enabled.")
