@@ -330,7 +330,7 @@ subflow_nodes = [
         "type": "function",
         "z": "a265f72314631d67",
         "name": "Filter by Sensor",
-        "func": "let targetSensor = env.get('sensorName');\nlet topicParts = msg.topic.split('/');\nlet sensorFromTopic = topicParts[2];\n\nif (sensorFromTopic === targetSensor) {\n    return msg;\n}\n\nreturn null;",
+        "func": "let targetSensor = env.get('sensorName');\nlet topicParts = msg.topic.split('/');\nlet sensorFromTopic = topicParts[2];\n\nif (sensorFromTopic === targetSensor) {\n    msg.topic = sensorFromTopic;\n    return msg;\n}\n\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
